@@ -6,8 +6,12 @@ class StorePicker extends React.Component {
   myInput = React.createRef();
 
   goToStore = (e) => {
+    // Stop the form from submitting
     e.preventDefault();
-    console.log(this);
+    // save the store name to throw into the url
+    const store = this.myInput.value.value;
+    // use the history prop to push in url
+    this.props.history.push(`/store/${store}`)
   }
 
   render() {
