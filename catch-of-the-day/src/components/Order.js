@@ -21,17 +21,19 @@ class Order extends React.Component {
     );
   }
 
+  totalFishPice = (prevTotal, key) => {
+    const fish = this.props.fishes[key];
+    const count = this.props.order[key];
+    const isAvailable = fish && fish.status === 'available';
+    if (isAvailable) {
+      return prevTotal + (fish.price * count);
+    }
+    return prevTotal;
+  }
+
   render() {
     const orderIds = Object.keys(this.props.order);
-    const total = orderIds.reduce((prevTotal, key) => {
-      const fish = this.props.fishes[key];
-      const count = this.props.order[key];
-      const isAvailable = fish && fish.status === 'available';
-      if (isAvailable) {
-        return prevTotal + (fish.price * count);
-      }
-      return prevTotal;
-    }, 0);
+    const total = orderIds.reduce(this.totalFishPice, 0);
 
     return (
       <div className="order-wrap">
@@ -40,7 +42,7 @@ class Order extends React.Component {
           {orderIds.map(this.renderOrder)}
         </ul>
         <div className="total">
-          Total<strong>{formatPrice(total)}</strong>
+          <strong>Total</strong>{formatPrice(total)}
         </div>
       </div>
     )
