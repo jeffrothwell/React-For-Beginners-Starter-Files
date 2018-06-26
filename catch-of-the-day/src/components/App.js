@@ -69,6 +69,15 @@ class App extends React.Component {
     this.setState({ fishes });
   }
 
+  deleteFish = (key) => {
+    //copy current state
+    const fishes = {...this.state.fishes};
+    // firebase needs deleted item it to be set to null
+    fishes[key] = null;
+    // update our state
+    this.setState({fishes});
+  }
+
   render() {
     return (
       <div className="catch-of-the-day">
