@@ -21,8 +21,6 @@ class App extends React.Component {
       this.setState({ order: JSON.parse(localStorageRef) })
     }
 
-    console.log(localStorageRef);
-
     this.ref = base.syncState(`${params.storeId}/fishes`, {
       context: this,
       state: "fishes"
@@ -62,6 +60,15 @@ class App extends React.Component {
     this.setState({ fishes });
   };
 
+  updateFish = (key, updatedFish) => {
+    // copy current state
+    const fishes = {...this.state.fishes};
+    // update that state
+    fishes[key] = updatedFish;
+    // save the updated fishes to state
+    this.setState({ fishes });
+  }
+
   render() {
     return (
       <div className="catch-of-the-day">
@@ -78,7 +85,12 @@ class App extends React.Component {
           </ul>
         </div>
         <Order order={this.state.order} fishes={this.state.fishes}/>
-        <Inventory addFish={this.addFish} loadSampleFishes={this.loadSampleFishes} />
+        <Inventory
+          addFish={this.addFish}
+          updateFish={this.updateFish}
+          loadSampleFishes={this.loadSampleFishes}
+          fishes={this.state.fishes}
+        />
       </div>
     )
   }
